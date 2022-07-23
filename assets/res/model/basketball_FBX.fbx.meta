@@ -1,0 +1,160 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "71152629-981e-48ed-93e1-936227f97bb1",
+  "files": [],
+  "subMetas": {
+    "d8b1b": {
+      "importer": "gltf-mesh",
+      "uuid": "71152629-981e-48ed-93e1-936227f97bb1@d8b1b",
+      "displayName": "",
+      "id": "d8b1b",
+      "name": "BasketballBall_Material0.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0eca5": {
+      "importer": "gltf-material",
+      "uuid": "71152629-981e-48ed-93e1-936227f97bb1@0eca5",
+      "displayName": "",
+      "id": "0eca5",
+      "name": "MainColor.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "406dd": {
+      "importer": "gltf-material",
+      "uuid": "71152629-981e-48ed-93e1-936227f97bb1@406dd",
+      "displayName": "",
+      "id": "406dd",
+      "name": "Lines.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f081b": {
+      "importer": "gltf-scene",
+      "uuid": "71152629-981e-48ed-93e1-936227f97bb1@f081b",
+      "displayName": "",
+      "id": "f081b",
+      "name": "basketball_FBX.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "71152629-981e-48ed-93e1-936227f97bb1@f081b",
+    "assetFinder": {
+      "meshes": [
+        "71152629-981e-48ed-93e1-936227f97bb1@d8b1b"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "71152629-981e-48ed-93e1-936227f97bb1@0eca5",
+        "71152629-981e-48ed-93e1-936227f97bb1@406dd"
+      ],
+      "scenes": [
+        "71152629-981e-48ed-93e1-936227f97bb1@f081b"
+      ]
+    },
+    "materials": {
+      "71152629-981e-48ed-93e1-936227f97bb1@0eca5": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "f648964e-8d32-41fc-9ac9-7a1e714dd17b",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": 0,
+        "_defines": [
+          {
+            "DCC_APP_NAME": 1,
+            "HAS_EXPORTED_METALLIC": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "mainColor": {
+              "__type__": "cc.Color",
+              "r": 201,
+              "g": 88,
+              "b": 0,
+              "a": 255
+            },
+            "shininessExponent": 9.607843137254903
+          },
+          {},
+          {}
+        ]
+      }
+    }
+  }
+}

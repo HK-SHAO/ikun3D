@@ -1,0 +1,41 @@
+{
+  "ver": "1.0.23",
+  "importer": "image",
+  "imported": true,
+  "uuid": "2179c916-7da1-4a48-bf40-70c0b654f9d9",
+  "files": [
+    ".json",
+    ".png"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "2179c916-7da1-4a48-bf40-70c0b654f9d9@6c48a",
+      "displayName": "kun",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "mirrored-repeat",
+        "wrapModeT": "mirrored-repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "2179c916-7da1-4a48-bf40-70c0b654f9d9"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "type": "texture",
+    "fixAlphaTransparencyArtifacts": true,
+    "hasAlpha": false,
+    "redirect": "2179c916-7da1-4a48-bf40-70c0b654f9d9@6c48a"
+  }
+}
