@@ -5,4 +5,4 @@
 ##  试玩
 网页版：https://www.shao.fun/cocos/ikun/  
 
-Android APK：https://github.com/HK-SHAO/ikun3D/blob/main/release/ikun-release-v1.2.apk
+Android APK：https://github.com/HK-SHAO/ikun3D/releases/
