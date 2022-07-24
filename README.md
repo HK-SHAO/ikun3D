@@ -9,4 +9,9 @@ Android APK：https://github.com/HK-SHAO/ikun3D/releases/
 
 ## 截图
 
-![](./doc/image/Screenshot_com.shao.ikun.jpg)
+<div>
+<table><tr>
+<td><img src="./doc/image/Screenshot_com.shao.ikun.jpg"></td>
+<td><img src="./doc/image/Screenshot_com.shao.ikun_2.jpg"></td>
+</tr></table>
+</div>
