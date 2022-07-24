@@ -31,7 +31,7 @@ export class CubeController extends BaseController {
         this.initAlbedo = <Color>this.material.getProperty('albedo');
 
         // 随机决定是否有鸡
-        this.jiNode.active = Math.random() < 0.1;
+        this.jiNode.active = Math.random() < 0.2;
     }
 
     update(deltaTime: number) {

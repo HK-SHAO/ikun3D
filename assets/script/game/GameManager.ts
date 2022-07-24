@@ -87,7 +87,7 @@ export class GameManager extends Component {
 
     public static touchCubeStart() {
         // 按时间依次移动若干次
-        for (let i = 1; i < 10; i++) {
+        for (let i = 1; i < 18; i++) {
             GameManager.instance.scheduleOnce(() => GameManager.touchCubeOnce(), i / 2);
         }
     }
@@ -109,7 +109,7 @@ export class GameManager extends Component {
         const zoomSpeed = 6;
         this.errLabel.node.setScale(this.errLabel.node.scale.multiplyScalar(1 - zoomSpeed * deltaTime));
         this.tapLabel.node.setScale(this.tapLabel.node.scale.multiplyScalar(1 - zoomSpeed * deltaTime));
-        this.delLabel.node.setScale(this.tapLabel.node.scale.multiplyScalar(1 - zoomSpeed * deltaTime));
+        this.delLabel.node.setScale(this.delLabel.node.scale.multiplyScalar(1 - zoomSpeed * deltaTime));
 
     }
 
@@ -278,6 +278,7 @@ export class GameManager extends Component {
         for (; ;) {
             index = randomRangeInt(0, GameManager.instance.cubesPosNode.children.length);
             if (index != this.lastChoiceIndex) {
+                this.lastChoiceIndex = index;
                 break;
             }
         }
