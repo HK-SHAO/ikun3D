@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, RigidBody, v3, EventTouch, tween, instantiate, MeshRenderer, color, Material, Color } from 'cc';
+import { _decorator, Component, Node, RigidBody, v3, EventTouch, tween, instantiate, MeshRenderer, color, Material, Color, math } from 'cc';
 import { Util } from '../../util/Util';
 import { AudioController } from '../AudioController';
 import { GameManager } from '../GameManager';
@@ -93,19 +93,25 @@ export class CubeController extends BaseController {
 
 
         // 飞天
-        tween(this.node).by(0.4, { position: v3(0, this.node.position.z / 3, 0) },
-            { easing: 'smooth' }).call(() => {
+        tween(this.node)
+            .by(0.4, { position: v3(0, this.node.position.z / 3, 0) }, { easing: 'smooth' })
+            .call(() => {
                 this.node.destroy();
 
                 if (GameManager.mode === 'taimei') {
                     // 放一个篮球下去
                     // Util.log(GameManager.instance.ballNode);
                     let ball = instantiate(GameManager.instance.ballNode);
-                    ball.active = true;
+                    ball.getComponent(RigidBody).enabled = true;
                     ball.position = this.node.position.add3f(0, -2, 0);
                     GameManager.instance.ballsNode.addChild(ball);
                 }
             }).start();
+
+        // 旋转鸡螺旋桨
+        Util.tweenNumber(0.4, 0, 1, (num: number) => {
+            this.jiNode.setRotationFromEuler(v3(0, num * 360 * 4, 0))
+        });
     }
 
     onTouchMove(event: EventTouch) {

@@ -1,4 +1,4 @@
-import { Camera, EventTouch, log, Node, physics, PhysicsSystem, randomRangeInt, tween, v3 } from "cc";
+import { Camera, EventTouch, log, Node, physics, PhysicsSystem, randomRangeInt, tween, TweenEasing, v3 } from "cc";
 
 export class Util {
 
@@ -44,13 +44,15 @@ export class Util {
     }
 
     // 数字缓动
-    public static tweenNumber(duration: number, from: number, to: number, callback: (num: number) => void) {
+    public static tweenNumber(duration: number,
+        from: number, to: number,
+        callback: (num: number) => void, easing: TweenEasing = 'smooth') {
         let numObj = { num: from };
         tween(numObj)
             .to(duration,
                 { num: to },
                 {
-                    easing: 'smooth',
+                    easing: easing,
                     onUpdate: () => callback(numObj.num)
                 })
             .start();

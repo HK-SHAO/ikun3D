@@ -27,10 +27,13 @@ export class GameManager extends Component {
     @property({ type: Node, tooltip: '篮球节点' })
     ballNode: Node = null;
 
-    @property({ type: Label, tooltip: '最高分数值标签' })
+    @property({ type: Label, tooltip: '当前得分数值标签' })
     curScoreLabel: Label = null;
 
-    @property({ type: Label, tooltip: '当前得分数值标签' })
+    @property({ type: Label, tooltip: '最低分数值标签' })
+    minScoreLabel: Label = null;
+
+    @property({ type: Label, tooltip: '最高分值标签' })
     maxScoreLabel: Label = null;
 
     @property({ type: Label, tooltip: '剩余时间标签' })
@@ -56,6 +59,7 @@ export class GameManager extends Component {
 
     private _curScore: number = 0;
     private _maxScore: number = 0;
+    private _minScore: number = 0;
 
     public static hp = Constant.INIT_HP;
     public static state: 'gameover' | 'normal' | 'idle' = 'normal';
@@ -75,6 +79,11 @@ export class GameManager extends Component {
         let maxScore = sys.localStorage.getItem('maxScore');
         if (maxScore) {
             GameManager.maxScore = parseInt(maxScore);
+        }
+
+        let minScore = sys.localStorage.getItem('minScore');
+        if (minScore) {
+            GameManager.minScore = parseInt(minScore);
         }
 
         // 初始化游戏
@@ -185,6 +194,13 @@ export class GameManager extends Component {
             GameManager.maxScore = num;
         }
 
+        // 更新最低分数
+        if (num < GameManager.instance._minScore) {
+
+            // 更新最大值
+            GameManager.minScore = num;
+        }
+
         // 正向反馈
         if ((Math.floor(num / 10) - Math.floor(oldScore / 10) >= 1) || num === GameManager.maxScore + 1) {
             // 正向反馈音效
@@ -192,9 +208,9 @@ export class GameManager extends Component {
 
             // 提示动画
             let tween1 = tween(GameManager.instance.curScoreLabel.node)
-                .to(1, { scale: v3(4, 4, 4) }, { easing: 'quartOut' });
-            let tween2 = tween(GameManager.instance.curScoreLabel.node)
                 .to(1, { scale: v3(1, 1, 1) }, { easing: 'quartOut' });
+            let tween2 = tween(GameManager.instance.curScoreLabel.node)
+                .to(1, { scale: v3(0.5, 0.5, 0.5) }, { easing: 'quartOut' });
             tween(GameManager.instance.curScoreLabel.node).sequence(tween1, tween2).start();
         }
     }
@@ -219,6 +235,24 @@ export class GameManager extends Component {
 
     public static get maxScore() {
         return GameManager.instance._maxScore;
+    }
+
+    public static set minScore(num: number) {
+        let oldScore = GameManager.instance._minScore;
+        GameManager.instance._minScore = num;
+
+        // 缓动更新
+        Util.tweenNumber(0.3, oldScore, num, (num: number) => {
+            // 更新标签文字
+            GameManager.instance.minScoreLabel.string = Math.trunc(num).toString();
+        });
+
+        // 存储
+        sys.localStorage.setItem('minScore', num.toString());
+    }
+
+    public static get minScore() {
+        return GameManager.instance._minScore;
     }
 
     // 所有方块进行下一次移动
