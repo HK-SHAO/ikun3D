@@ -102,7 +102,6 @@ export class CubeController extends BaseController {
                     // 放一个篮球下去
                     // Util.log(GameManager.instance.ballNode);
                     let ball = instantiate(GameManager.instance.ballNode);
-                    ball.getComponent(RigidBody).enabled = true;
                     ball.position = this.node.position.add3f(0, -2, 0);
                     GameManager.instance.ballsNode.addChild(ball);
                 }
