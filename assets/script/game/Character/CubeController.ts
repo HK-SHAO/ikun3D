@@ -110,7 +110,7 @@ export class CubeController extends BaseController {
 
         // 旋转鸡螺旋桨
         Util.tweenNumber(0.4, 0, 1, (num: number) => {
-            this.jiNode.setRotationFromEuler(v3(0, num * 360 * 4, 0))
+            this.jiNode?.setRotationFromEuler(v3(0, num * 360 * 4, 0))
         });
     }
 
