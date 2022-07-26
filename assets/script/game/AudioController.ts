@@ -27,7 +27,7 @@ export class AudioController extends Component {
     audioSource: AudioSource = null;
 
     public static playEffect(audio: AudioClip) {
-        AudioController.instance.audioSource.playOneShot(audio);
+        AudioController.instance?.audioSource?.playOneShot(audio);
     }
 
     start() {

@@ -29,8 +29,8 @@ export class BallController extends BaseController {
     onTouchStart(event: EventTouch) {
         // Util.log('球被触摸到');
 
-        // 点到球扣一分
-        GameManager.curScore -= 1;
+        // 点到球加一分
+        GameManager.curScore += 1;
         // 缓动销毁
         Util.tweenDestroy(0.3, this.node, null);
 

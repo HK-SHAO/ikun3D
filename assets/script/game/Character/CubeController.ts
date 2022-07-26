@@ -44,7 +44,6 @@ export class CubeController extends BaseController {
                 .to(0.3, { scale: v3(1, 1, 1) }, { easing: 'quartOut' })
                 .start();
 
-
             // kunkun 掉落扣分
             if (this.jiNode.active) {
                 GameManager.curScore -= 20;
@@ -52,8 +51,24 @@ export class CubeController extends BaseController {
             } else {
                 GameManager.curScore -= 2;
             }
+
+            if (GameManager.mode = 'inf') {
+                // 无穷模式掉落一个就死亡
+                GameManager.gameOver();
+            }
             this.isDead = true;
         }
+
+        // if (this.node.parent.name === 'Cubes') {
+        //     // 限制最低速度
+        //     let vec3 = v3();
+        //     this.rigidbody.getLinearVelocity(vec3);
+        //     let vel = 5 + 2 * Math.pow(GameManager.time, 0.5);
+        //     if (vec3.z < vel) {
+        //         vec3.z = vel;
+        //         this.rigidbody.setLinearVelocity(vec3);
+        //     }
+        // }
     }
 
     // 向摄像机方向移动
@@ -94,9 +109,9 @@ export class CubeController extends BaseController {
 
         // 飞天
         tween(this.node)
-            .by(0.4, { position: v3(0, this.node.position.z / 3, 0) }, { easing: 'smooth' })
+            .by(0.8, { position: v3(0, this.node.position.z / 3, 0) }, { easing: 'smooth' })
             .call(() => {
-                this.node.destroy();
+                Util.tweenDestroy(0.3, this.node);
 
                 if (GameManager.mode === 'taimei') {
                     // 放一个篮球下去
@@ -108,8 +123,8 @@ export class CubeController extends BaseController {
             }).start();
 
         // 旋转鸡螺旋桨
-        Util.tweenNumber(0.4, 0, 1, (num: number) => {
-            this.jiNode?.setRotationFromEuler(v3(0, num * 360 * 4, 0))
+        Util.tweenNumber(0.8, 0, 1, (num: number) => {
+            this.jiNode?.setRotationFromEuler(v3(0, num * 360 * 8, 0))
         });
     }
 
@@ -119,12 +134,12 @@ export class CubeController extends BaseController {
 
     onTouchEnd(event: EventTouch) {
         // 恢复颜色
-        this.material.setProperty('albedo', this.initAlbedo);
+        // this.material.setProperty('albedo', this.initAlbedo);
     }
 
     onTouchCancel(event: EventTouch) {
         // 恢复颜色
-        this.material.setProperty('albedo', this.initAlbedo);
+        // this.material.setProperty('albedo', this.initAlbedo);
     }
 
 

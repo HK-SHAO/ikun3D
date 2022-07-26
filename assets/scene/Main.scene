@@ -61,9 +61,9 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -21.213,
-      "y": 25.531,
-      "z": -10.215
+      "x": -19.332,
+      "y": 22.134,
+      "z": -13.072
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -121,7 +121,7 @@
     "_shadowFixedArea": true,
     "_shadowNear": 0.1,
     "_shadowFar": 50,
-    "_shadowOrthoSize": 30,
+    "_shadowOrthoSize": 34,
     "_id": "597uMYCbhEtJQc0ffJlcgA"
   },
   {
@@ -3112,7 +3112,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "🐓",
+    "_string": "♾️",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 120,
@@ -3546,7 +3546,7 @@
     },
     "_fillStart": 0,
     "_fillRange": 0,
-    "_isTrimmedMode": true,
+    "_isTrimmedMode": false,
     "_useGrayscale": false,
     "_atlas": null,
     "_id": "84Mc7eiV1IyZcyJiAhwDPs"

@@ -17,8 +17,8 @@
       "userData": {
         "wrapModeS": "mirrored-repeat",
         "wrapModeT": "mirrored-repeat",
-        "minfilter": "linear",
-        "magfilter": "linear",
+        "minfilter": "nearest",
+        "magfilter": "nearest",
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
@@ -35,7 +35,7 @@
   "userData": {
     "type": "texture",
     "fixAlphaTransparencyArtifacts": true,
-    "hasAlpha": false,
+    "hasAlpha": true,
     "redirect": "2179c916-7da1-4a48-bf40-70c0b654f9d9@6c48a"
   }
 }

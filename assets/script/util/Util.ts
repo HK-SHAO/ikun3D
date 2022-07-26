@@ -59,7 +59,7 @@ export class Util {
     }
 
     //  缓动销毁
-    public static tweenDestroy(duration: number, node: Node, callback: () => void) {
+    public static tweenDestroy(duration: number, node: Node, callback: () => void = null) {
         tween(node).to(duration, { scale: v3(0, 0, 0) }, { easing: 'quartOut' }).call(() => {
             // Util.log('销毁', node);
             node.destroy();

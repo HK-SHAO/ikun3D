@@ -17,8 +17,8 @@
       "userData": {
         "wrapModeS": "mirrored-repeat",
         "wrapModeT": "mirrored-repeat",
-        "minfilter": "linear",
-        "magfilter": "linear",
+        "minfilter": "nearest",
+        "magfilter": "nearest",
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,

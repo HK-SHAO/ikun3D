@@ -61,9 +61,10 @@ export class GameManager extends Component {
     private _maxScore: number = 0;
     private _minScore: number = 0;
 
-    public static hp = Constant.INIT_HP;
+    public static time = 0;
+    public static hp = 0;
     public static state: 'gameover' | 'normal' | 'idle' = 'normal';
-    public static mode: 'jini' | 'taimei' = 'jini';
+    public static mode: 'jini' | 'taimei' | 'inf' = 'inf';
 
 
     start() {
@@ -87,7 +88,6 @@ export class GameManager extends Component {
         }
 
         // 初始化游戏
-        GameManager.state = 'normal';
         this.gameOverLabel.node.setScale(v3(0, 0, 0));
         this.gameOverSprite.node.setScale(v3(0, 0, 0));
 
@@ -102,9 +102,15 @@ export class GameManager extends Component {
     }
 
     update(deltaTime: number) {
+        GameManager.time += deltaTime;
 
-        // 时间流逝扣血
-        GameManager.hp -= deltaTime;
+        if (GameManager.mode === 'inf') {
+            // 时间流逝加血
+            GameManager.hp += deltaTime;
+        } else {
+            // 时间流逝扣血
+            GameManager.hp -= deltaTime;
+        }
 
         // 小于 0 游戏结束
         if (GameManager.hp < 0 && GameManager.state === 'normal') {
@@ -123,11 +129,14 @@ export class GameManager extends Component {
     }
 
     public onChangeButtonClick() {
-
         if (GameManager.mode === 'jini') {
             GameManager.mode = 'taimei';
             GameManager.instance.buttonLabel.string = '🏀';
-        } else {
+        } else if (GameManager.mode === 'taimei') {
+            GameManager.mode = 'inf';
+            GameManager.instance.buttonLabel.string = '♾️';
+        }
+        else if (GameManager.mode === 'inf') {
             GameManager.mode = 'jini';
             GameManager.instance.buttonLabel.string = '🐓';
         }
@@ -307,19 +316,27 @@ export class GameManager extends Component {
 
     public static touchCubeOnce() {
 
-        // 与上次不同的随机选取一个
-        let index = 0;
-        for (; ;) {
-            index = randomRangeInt(0, GameManager.instance.cubesPosNode.children.length);
-            if (index != this.lastChoiceIndex) {
-                this.lastChoiceIndex = index;
-                break;
+        // 难度曲线
+        let normalTime = GameManager.time / 100;
+        let ex = Math.exp(normalTime);
+        let prob = ex / (1 + ex);
+
+        // 生成新砖块的概率
+        if (Math.random() < prob) {
+            // 与上次不同的随机选取一个
+            let index = 0;
+            for (; ;) {
+                index = randomRangeInt(0, GameManager.instance.cubesPosNode.children.length);
+                if (index != this.lastChoiceIndex) {
+                    this.lastChoiceIndex = index;
+                    break;
+                }
             }
+            // 创建新方块
+            let cube = instantiate(GameManager.instance.cubesPosNode.children[index]);
+            cube.worldPosition = cube.position.add(v3(0, 0, cube.scale.z + 1));
+            GameManager.instance.cubesNode.addChild(cube);
         }
-        // 创建新方块
-        let cube = instantiate(GameManager.instance.cubesPosNode.children[index]);
-        cube.worldPosition = cube.position.add(v3(0, 0, cube.scale.z + 1));
-        GameManager.instance.cubesNode.addChild(cube);
 
         // 移动下一次
         GameManager.instance.scheduleOnce(GameManager.moveCubesNext);
