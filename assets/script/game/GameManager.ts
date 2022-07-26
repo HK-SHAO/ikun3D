@@ -135,8 +135,7 @@ export class GameManager extends Component {
         } else if (GameManager.mode === 'taimei') {
             GameManager.mode = 'inf';
             GameManager.instance.buttonLabel.string = '♾️';
-        }
-        else if (GameManager.mode === 'inf') {
+        } else if (GameManager.mode === 'inf') {
             GameManager.mode = 'jini';
             GameManager.instance.buttonLabel.string = '🐓';
         }

@@ -52,7 +52,7 @@ export class CubeController extends BaseController {
                 GameManager.curScore -= 2;
             }
 
-            if (GameManager.mode = 'inf') {
+            if (GameManager.mode === 'inf') {
                 // 无穷模式掉落一个就死亡
                 GameManager.gameOver();
             }
