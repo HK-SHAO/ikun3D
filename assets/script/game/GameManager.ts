@@ -211,9 +211,6 @@ export class GameManager extends Component {
 
         // 正向反馈
         if ((Math.floor(num / 10) - Math.floor(oldScore / 10) >= 1) || num === GameManager.maxScore + 1) {
-            // 正向反馈音效
-            AudioController.playEffect(AudioController.instance.getSkillAudio);
-
             // 提示动画
             let tween1 = tween(GameManager.instance.curScoreLabel.node)
                 .to(1, { scale: v3(1, 1, 1) }, { easing: 'quartOut' });

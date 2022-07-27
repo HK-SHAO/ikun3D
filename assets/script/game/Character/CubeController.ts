@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, RigidBody, v3, EventTouch, tween, instantiate, MeshRenderer, color, Material, Color, math } from 'cc';
+import { _decorator, Component, Node, RigidBody, v3, EventTouch, tween, instantiate, MeshRenderer, color, Material, Color, math, AudioClip } from 'cc';
 import { Util } from '../../util/Util';
 import { AudioController } from '../AudioController';
 import { GameManager } from '../GameManager';
@@ -11,6 +11,9 @@ export class CubeController extends BaseController {
 
     @property({ type: Node, tooltip: '放鸡的节点' })
     jiNode: Node = null;
+
+    @property({ type: AudioClip, tooltip: '点击音效' })
+    tapAudio: AudioClip = null;
 
     public rigidbody: RigidBody = null;
 
@@ -103,29 +106,42 @@ export class CubeController extends BaseController {
             .to(0.3, { scale: v3(1, 1, 1) }, { easing: 'quartOut' })
             .start();
 
-        AudioController.playEffect(AudioController.instance.hitAudio);
+        AudioController.playEffect(this.tapAudio);
 
 
+        if (this.jiNode.active) {
+            // 旋转鸡螺旋桨
+            Util.tweenNumber(0.8, 0, 1, (num: number) => {
+                this.jiNode?.setRotationFromEuler(v3(0, num * 360 * 10 * flyTime, 0))
+            });
 
-        // 飞天
-        tween(this.node)
-            .by(0.8, { position: v3(0, this.node.position.z / 3, 0) }, { easing: 'smooth' })
-            .call(() => {
-                Util.tweenDestroy(0.3, this.node);
+            // 鸡叫
+            AudioController.playEffect(AudioController.instance.getSkillAudio);
 
-                if (GameManager.mode === 'taimei') {
-                    // 放一个篮球下去
-                    // Util.log(GameManager.instance.ballNode);
-                    let ball = instantiate(GameManager.instance.ballNode);
-                    ball.position = this.node.position.add3f(0, -2, 0);
-                    GameManager.instance.ballsNode.addChild(ball);
-                }
-            }).start();
+            let flyTime = 1.5;
 
-        // 旋转鸡螺旋桨
-        Util.tweenNumber(0.8, 0, 1, (num: number) => {
-            this.jiNode?.setRotationFromEuler(v3(0, num * 360 * 8, 0))
-        });
+            // 飞天
+            tween(this.node)
+                .by(flyTime, { position: v3(0, this.node.position.z / 3, 0) }, { easing: 'smooth' })
+                .call(() => {
+                    Util.tweenDestroy(0.3, this.node);
+
+                    if (GameManager.mode === 'taimei') {
+                        // 放一个篮球下去
+                        // Util.log(GameManager.instance.ballNode);
+                        let ball = instantiate(GameManager.instance.ballNode);
+                        ball.position = this.node.position.add3f(0, -2, 0);
+                        GameManager.instance.ballsNode.addChild(ball);
+                        //  缓动出现
+                        Util.tweenShow(0.3, GameManager.instance.ballNode);
+                    }
+                }).start();
+
+        } else {
+            // 缓动销毁
+            Util.tweenDestroy(0.8, this.node);
+            this.isDead = true;
+        }
     }
 
     onTouchMove(event: EventTouch) {

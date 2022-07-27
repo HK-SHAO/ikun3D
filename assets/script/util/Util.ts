@@ -66,5 +66,14 @@ export class Util {
             callback && callback();
         }).start();
     }
+
+    //  缓动出现
+    public static tweenShow(duration: number, node: Node, callback: () => void = null) {
+        let initScale = node.scale.clone();
+        node.scale = v3(0, 0, 0);
+        tween(node).to(duration, { scale: initScale }, { easing: 'quartOut' }).call(() => {
+            callback && callback();
+        }).start();
+    }
 }
 

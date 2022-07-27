@@ -24,10 +24,13 @@ export class AudioController extends Component {
     @property({ type: AudioClip, tooltip: '升级音效' })
     getSkillAudio: AudioClip = null;
 
+    @property({ type: AudioClip, tooltip: '初始音效' })
+    startAudio: AudioClip = null;
+
     audioSource: AudioSource = null;
 
-    public static playEffect(audio: AudioClip) {
-        AudioController.instance?.audioSource?.playOneShot(audio);
+    public static playEffect(audio: AudioClip = AudioController.instance.touchAudio) {
+        audio && AudioController.instance?.audioSource?.playOneShot(audio);
     }
 
     start() {
@@ -35,6 +38,8 @@ export class AudioController extends Component {
         AudioController.instance = this;
 
         this.audioSource = this.node.getComponent(AudioSource);
+
+        AudioController.playEffect(this.startAudio);
     }
 
     update(deltaTime: number) {

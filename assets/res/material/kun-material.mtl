@@ -4,38 +4,16 @@
   "_objFlags": 0,
   "_native": "",
   "_effectAsset": {
-    "__uuid__": "1baf0fc9-befa-459c-8bdd-af1a450a0319",
+    "__uuid__": "bf4078d6-d2d7-4073-83bb-cd6f1802e880",
     "__expectedType__": "cc.EffectAsset"
   },
   "_techIdx": "0",
   "_defines": [
     {
-      "USE_ALBEDO_MAP": true,
-      "USE_EMISSIVE_MAP": true,
-      "USE_ALPHA_TEST": true
-    },
-    {},
-    {}
+      "USE_TEXTURE": true
+    }
   ],
   "_states": [
-    {
-      "rasterizerState": {},
-      "depthStencilState": {},
-      "blendState": {
-        "targets": [
-          {}
-        ]
-      }
-    },
-    {
-      "rasterizerState": {},
-      "depthStencilState": {},
-      "blendState": {
-        "targets": [
-          {}
-        ]
-      }
-    },
     {
       "rasterizerState": {},
       "depthStencilState": {},
@@ -51,13 +29,7 @@
       "mainTexture": {
         "__uuid__": "2179c916-7da1-4a48-bf40-70c0b654f9d9@6c48a",
         "__expectedType__": "cc.Texture2D"
-      },
-      "emissiveMap": {
-        "__uuid__": "2179c916-7da1-4a48-bf40-70c0b654f9d9@6c48a",
-        "__expectedType__": "cc.Texture2D"
       }
-    },
-    {},
-    {}
+    }
   ]
 }
