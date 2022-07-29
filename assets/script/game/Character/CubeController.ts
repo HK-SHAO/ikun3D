@@ -15,6 +15,9 @@ export class CubeController extends BaseController {
     @property({ type: AudioClip, tooltip: '点击音效' })
     tapAudio: AudioClip = null;
 
+    @property({ type: Number, tooltip: '随机出现鸡的概率' })
+    randomActiveValue: Number = 0.2;
+
     public rigidbody: RigidBody = null;
 
     public isDead = false;
@@ -34,7 +37,7 @@ export class CubeController extends BaseController {
         this.initAlbedo = <Color>this.material.getProperty('albedo');
 
         // 随机决定是否有鸡
-        this.jiNode.active = Math.random() < 0.2;
+        this.jiNode.active = Math.random() < this.randomActiveValue;
     }
 
     update(deltaTime: number) {
@@ -126,7 +129,7 @@ export class CubeController extends BaseController {
                 .call(() => {
                     Util.tweenDestroy(0.3, this.node);
 
-                    if (GameManager.mode === 'taimei') {
+                    if (GameManager.mode === 'taimei' || true) {
                         // 放一个篮球下去
                         // Util.log(GameManager.instance.ballNode);
                         let ball = instantiate(GameManager.instance.ballNode);
