@@ -2,6 +2,11 @@
 
 使用 Cocos Creator 3.x 在一天之内开发完成
 
+## 开发过程和演示视频
+
+[https://www.bilibili.com/video/BV14F411N7W5](https://www.bilibili.com/video/BV14F411N7W5)  
+
+
 ##  试玩
 
 - 【推荐】 itch.io https://shaofun.itch.io/ikun3d
