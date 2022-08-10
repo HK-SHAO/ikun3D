@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, RigidBody, v3, EventTouch, tween, Material, Color, color, MeshRenderer } from 'cc';
 import { AudioController } from '../AudioController';
+import { GameManager } from '../GameManager';
 import { BaseController } from './BaseController';
 const { ccclass, property } = _decorator;
 
@@ -28,13 +29,13 @@ export class GroundController extends BaseController {
     onTouchStart(event: EventTouch) {
         // 播放音效
         AudioController.playEffect(AudioController.instance.touchAudio);
-        
+
         // 更改颜色
         this.material.setProperty('albedo', this.touchAlbedo);
         this.scheduleOnce(() => {
             // 恢复颜色
             this.material.setProperty('albedo', this.initAlbedo);
-        }, 0.1);
+        }, 0.2);
     }
 
     onTouchMove(event: EventTouch) {

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Camera, Input, input, EventTouch, PhysicsSystem, physics, instantiate, v3, Prefab, Label, sys, tween, director, Sprite, randomRangeInt, Color } from 'cc';
+import { _decorator, Component, Node, Camera, Input, input, EventTouch, PhysicsSystem, physics, instantiate, v3, Prefab, Label, sys, tween, director, Sprite, randomRangeInt, Color, Vec3 } from 'cc';
 import { Constant } from '../framework/Constant';
 import { Util } from '../util/Util';
 import { AudioController } from './AudioController';
@@ -57,11 +57,12 @@ export class GameManager extends Component {
     @property({ type: Sprite, tooltip: '游戏结束图像' })
     gameOverSprite: Sprite = null;
 
+    @property({ type: Node, tooltip: '判定线条节点' })
+    lineNode: Node = null;
+
     private _curScore: number = 0;
     private _maxScore: number = 0;
     private _minScore: number = 0;
-
-    public static time = 0;
     public static hp = 0;
     public static state: 'gameover' | 'normal' | 'idle' = 'normal';
     public static mode: 'jini' | 'taimei' | 'inf' = 'inf';
@@ -102,7 +103,6 @@ export class GameManager extends Component {
     }
 
     update(deltaTime: number) {
-        GameManager.time += deltaTime;
 
         if (GameManager.mode === 'inf') {
             // 时间流逝加血
@@ -162,11 +162,12 @@ export class GameManager extends Component {
 
         tween(GameManager.instance.gameOverSprite.node)
             .to(tweenTime, { scale: v3(1, 1, 1) }, { easing: 'quartOut' })
-            .call(() => {
-                // 切换为结束状态
-                GameManager.state = 'gameover';
-            })
             .start();
+
+        GameManager.instance.scheduleOnce(() => {
+            // 切换为结束状态
+            GameManager.state = 'gameover';
+        }, tweenTime)
     }
 
     public static set curScore(num: number) {
@@ -268,6 +269,16 @@ export class GameManager extends Component {
         }
     }
 
+    // 推所有方块
+    public static pushAllCubes(vel: Vec3) {
+        for (let cube of GameManager.instance.cubesNode.children) {
+            let controller: CubeController = cube['controller'];
+            if (controller && controller.pushForce) {
+                controller.pushForce = vel;
+            }
+        }
+    }
+
     public static reGame() {
         if (GameManager.state !== 'gameover') {
             return;
@@ -282,30 +293,31 @@ export class GameManager extends Component {
 
         tween(GameManager.instance.gameOverSprite.node)
             .to(idleTime, { scale: v3(0, 0, 0) }, { easing: 'quartOut' })
-            .call(() => {
-                // 依次销毁掉所有物体
-                let allNodes = [...GameManager.instance.cubesNode.children,
-                ...GameManager.instance.ballsNode.children];
-
-                const delayTime = 2.0 / allNodes.length;
-
-                let destroyAll = () => {
-                    // Util.log(allNodes.length);
-                    if (allNodes.length === 0) {
-                        GameManager.state = 'normal';
-
-                        GameManager.curScore = 0;
-                        GameManager.hp = Constant.INIT_HP;
-
-                        GameManager.touchCubeStart();
-                        return;
-                    }
-                    Util.tweenDestroy(delayTime, allNodes.shift(), destroyAll)
-                };
-                // 递归的消除，产生一个依次消除的动画
-                destroyAll();
-            })
             .start();
+
+        GameManager.instance.scheduleOnce(() => {
+            // 依次销毁掉所有物体
+            let allNodes = [...GameManager.instance.cubesNode.children,
+            ...GameManager.instance.ballsNode.children];
+
+            const delayTime = 2.0 / allNodes.length;
+
+            let destroyAll = () => {
+                // Util.log(allNodes.length);
+                if (allNodes.length < 1) {
+                    GameManager.state = 'normal';
+
+                    GameManager.curScore = 0;
+                    GameManager.hp = Constant.INIT_HP;
+
+                    GameManager.touchCubeStart();
+                    return;
+                }
+                Util.tweenDestroy(delayTime, allNodes.shift(), destroyAll)
+            };
+            // 递归的消除，产生一个依次消除的动画
+            destroyAll();
+        }, idleTime);
     }
 
     private static lastChoiceIndex = 0;
@@ -313,7 +325,7 @@ export class GameManager extends Component {
     public static touchCubeOnce() {
 
         // 难度曲线
-        let normalTime = GameManager.time / 100;
+        let normalTime = Math.abs(GameManager.curScore) / 1000;
         let ex = Math.exp(normalTime);
         let prob = ex / (1 + ex);
 
@@ -350,6 +362,9 @@ export class GameManager extends Component {
         });
 
         GameManager.touchCubeOnce();
+
+        // 推所有方块
+        GameManager.pushAllCubes(v3(0, 0, 2));
     }
 
     private onTouchMove(event: EventTouch) {
@@ -369,6 +384,9 @@ export class GameManager extends Component {
         if (GameManager.state === 'gameover') {
             GameManager.reGame();
         }
+
+        // 推所有方块
+        GameManager.pushAllCubes(v3(0, 0, 0));
     }
 
     private onTouchCancel(event: EventTouch) {
@@ -377,6 +395,8 @@ export class GameManager extends Component {
             element.collider.node.getComponent(BaseController)?.onTouchCancel(event);
         });
 
+        // 推所有方块
+        GameManager.pushAllCubes(v3(0, 0, 0));
     }
 
 }

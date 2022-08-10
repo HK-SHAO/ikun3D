@@ -30,7 +30,7 @@ export class BallController extends BaseController {
         // Util.log('球被触摸到');
 
         // 点到球加一分
-        GameManager.curScore += 1;
+        GameManager.curScore -= 1;
         // 缓动销毁
         Util.tweenDestroy(0.3, this.node, null);
 

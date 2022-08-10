@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, RigidBody, v3, EventTouch, tween, instantiate, MeshRenderer, color, Material, Color, math, AudioClip } from 'cc';
+import { _decorator, Component, Node, RigidBody, v3, EventTouch, tween, instantiate, MeshRenderer, color, Material, Color, math, AudioClip, Vec3 } from 'cc';
 import { Util } from '../../util/Util';
 import { AudioController } from '../AudioController';
 import { GameManager } from '../GameManager';
@@ -28,6 +28,8 @@ export class CubeController extends BaseController {
 
     public touchAlbedo: Color = color(0, 255, 0, 1);
 
+    public pushForce: Vec3 = v3(0, 0, 0);
+
     start() {
         super.start();
         this.rigidbody = this.node.getComponent(RigidBody);
@@ -42,6 +44,11 @@ export class CubeController extends BaseController {
 
     update(deltaTime: number) {
         super.update(deltaTime);
+
+        // 持续推力
+        if (this.pushForce.length() > 0.1) {
+            this.rigidbody?.applyForce(this.pushForce);
+        }
 
         if (this.isDead === false && this.node.position.y < 0.5) {
 
@@ -96,12 +103,17 @@ export class CubeController extends BaseController {
 
         // 点到方块加分
 
+        let baseScore = 0;
+        baseScore += Math.abs(this.node.worldPosition.z - GameManager.instance.lineNode.position.z);
+        baseScore = 50 - baseScore;
+        baseScore = baseScore / 50;
+
         if (this.jiNode.active) {
-            GameManager.curScore += 10;
+            GameManager.curScore += Math.round(baseScore * 20);
         } else if (GameManager.mode === 'jini') {
-            GameManager.curScore += 1;
+            GameManager.curScore += Math.round(baseScore * 1);
         } else {
-            GameManager.curScore += 2;
+            GameManager.curScore += Math.round(baseScore * 2);
         }
 
         // 点到方块提示
@@ -128,6 +140,7 @@ export class CubeController extends BaseController {
                 .by(flyTime, { position: v3(0, this.node.position.z / 3, 0) }, { easing: 'smooth' })
                 .call(() => {
                     Util.tweenDestroy(0.3, this.node);
+                    this.isDead = true;
 
                     if (GameManager.mode === 'taimei' || true) {
                         // 放一个篮球下去
@@ -142,7 +155,7 @@ export class CubeController extends BaseController {
 
         } else {
             // 缓动销毁
-            Util.tweenDestroy(0.8, this.node);
+            Util.tweenDestroy(0.5, this.node);
             this.isDead = true;
         }
     }
